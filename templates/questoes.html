@@ -4,21 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questões</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/questoes.css') }}">
 </head>
 <body>
-    <form method="POST" action="/analisar">
+    <form method="POST" action="/questoes">
+        <h1>Ola, {{ cliente.nome }}!</h1>
         {% for pergunta in perguntas %}
         <div class="pergunta">
             <label><strong>{{ pergunta.id }}. {{ pergunta.pergunta }}</strong></label>
             
-            {% for resposta in pergunta.respostas %}
-            <div class="opcao">
-                <input type="checkbox" 
+            <!-- Se for múltipla escolha -->
+            {% if pergunta.tipo == 'multipla_escolha' %}
+                {% for resposta in pergunta.respostas %}
+                <div class="opcao">
+                    <input type="checkbox" 
+                        name="pergunta_{{ pergunta.id }}" 
+                        value="{{ resposta }}">
+                    <label>{{ resposta }}</label>
+                </div>
+                {% endfor %}
+            
+            <!-- Se for texto livre -->
+            {% elif pergunta.tipo == 'texto_livre' %}
+                <input type="text" 
                     name="pergunta_{{ pergunta.id }}" 
-                    value="{{ resposta }}">
-                <label>{{ resposta }}</label>
-            </div>
-            {% endfor %}
+                    placeholder="Digite sua resposta..."
+                    style="width: 100%; padding: 8px; margin: 10px 0;">
+            {% endif %}
         </div>
         {% endfor %}
         

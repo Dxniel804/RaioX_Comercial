@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisando Diagnóstico</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analisar.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="loader">
+            <div class="spinner"></div>
+        </div>
+        
+        <h1>Analisando Seu Diagnóstico</h1>
+        <p class="subtitle">Por favor, aguarde enquanto geramos sua análise personalizada...</p>
+        
+        <div class="steps">
+            <div class="step active">
+                <div class="step-icon">✓</div>
+                <span>Dados Recebidos</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">⚙</div>
+                <span>Gerando Diagnóstico</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">📄</div>
+                <span>Criando PDFs</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">✉</div>
+                <span>Enviando Emails</span>
+            </div>
+        </div>
+
+        <div class="info-text">
+            <p>Não saia desta página. Você será redirecionado automaticamente quando a análise estiver pronta.</p>
+        </div>
+    </div>
+
+    <script>
+        // Atualizar os passos a cada 1.5 segundos
+        let step = 0;
+        const steps = document.querySelectorAll('.step');
+        
+        setInterval(() => {
+            step = (step + 1) % steps.length;
+            
+            steps.forEach((s, index) => {
+                s.classList.remove('active');
+                if (index <= step) {
+                    s.classList.add('active');
+                }
+            });
+        }, 1500);
+    </script>
+</body>
+</html>
