@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questões</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/questoes.css') }}">
 </head>
 <body>
+<!-- Logo VendaMais -->
+<img src="{{ url_for('static', filename='img/logo__vm.png') }}" alt="VendaMais" class="logo-vendamais">
     <form method="POST" action="/questoes">
         <h1>Ola, {{ cliente.nome }}!</h1>
         {% for pergunta in perguntas %}

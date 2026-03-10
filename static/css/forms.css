@@ -122,11 +122,6 @@ label {
 }
 
 /* required asterisk */
-input[required] + br + br,
-input[required] ~ label::after {
-  /* handled via CSS on required inputs' preceding label */
-}
-
 label[for="nome"]::after,
 label[for="email"]::after,
 label[for="telefone"]::after {

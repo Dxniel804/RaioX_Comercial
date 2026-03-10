@@ -334,6 +334,9 @@ def carregar_perguntas():
 def gerar_pdf_diagnostico(cliente, diagnostico):
     criar_diretorio_se_nao_existe('diagnosticos')
     caminho = f"diagnosticos/pdf_{cliente['nome']}.pdf"
+    
+    # DEBUG: Verificar dados do cliente
+    print(f"DEBUG - Cliente recebido: {cliente}")
 
     doc = SimpleDocTemplate(
         caminho, pagesize=A4,
@@ -351,7 +354,8 @@ def gerar_pdf_diagnostico(cliente, diagnostico):
 
     el.append(SectionHeader('Identificação do Cliente'))
     el.append(Spacer(1, 8))
-    el.append(_card_cliente(cliente, s))
+    # Sempre passar os 6 campos: nome, cargo, empresa, email, telefone, cidade
+    el.append(_card_cliente(cliente, s, campos=['nome', 'cargo', 'empresa', 'email', 'telefone', 'cidade']))
     el.append(Spacer(1, 22))
 
     el.append(SectionHeader('Diagnóstico & Análise'))
@@ -399,8 +403,8 @@ def gerar_pdf_respostas(cliente, respostas):
 
     el.append(SectionHeader('Identificação do Cliente'))
     el.append(Spacer(1, 8))
-    el.append(_card_cliente(cliente, s,
-              campos=['nome', 'cargo', 'empresa', 'email', 'telefone', 'cidade']))
+    # Sempre passar os 6 campos: nome, cargo, empresa, email, telefone, cidade
+    el.append(_card_cliente(cliente, s, campos=['nome', 'cargo', 'empresa', 'email', 'telefone', 'cidade']))
     el.append(Spacer(1, 22))
 
     # ── Agrupar por pilar ─────────────────────────────────────────────────

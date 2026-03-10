@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise Enviada com Sucesso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sucesso.css') }}">
 </head>
 <body>
+<!-- Logo VendaMais -->
+<img src="{{ url_for('static', filename='img/logo__vm.png') }}" alt="VendaMais" class="logo-vendamais">
     <div class="container">
+
         <!-- Ícone de Sucesso -->
         <div class="success-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -16,12 +20,12 @@
         </div>
 
         <!-- Título -->
-        <h1>Análise Enviada com Sucesso! 🎉</h1>
+        <h1>Análise Enviada com Sucesso!</h1>
         <p class="subtitle">Seu diagnóstico foi processado e enviado aos destinatários</p>
 
         <!-- Informações do Cliente -->
         <div class="info-box">
-            <h3>📋 Informações do Cliente</h3>
+            <h3>Informações do Cliente</h3>
             <p><strong>Nome:</strong> {{ cliente.nome }}</p>
             <p><strong>Empresa:</strong> {{ cliente.empresa }}</p>
             <p><strong>Email:</strong> {{ cliente.email }}</p>
@@ -30,43 +34,34 @@
 
         <!-- Seção de Emails Enviados -->
         <div class="emails-section">
-            <h3 style="color: #333; margin-bottom: 20px;">✉️ Emails Enviados</h3>
+            <h3>Emails Enviados</h3>
 
-            <!-- Email para Cliente -->
             <div class="email-item">
                 <div class="email-icon">
                     <span class="checkmark">✓</span>
                 </div>
                 <div class="email-details">
-                    <div class="label">Enviado para Cliente</div>
+                    <div class="label">Enviado para Usuário</div>
                     <div class="email">{{ cliente.email }}</div>
-                    <p style="font-size: 12px; color: #999; margin-top: 3px;">Anexo: Mini Diagnóstico</p>
+                    <p>Anexo: Mini Diagnóstico</p>
                 </div>
             </div>
 
-            <!-- Email para Diretor -->
-            <div class="email-item">
-                <div class="email-icon">
-                    <span class="checkmark">✓</span>
-                </div>
-                <div class="email-details">
-                    <div class="label">Enviado para Diretor Comercial</div>
-                    <div class="email">daniel.batista@vendamais.com.br</div>
-                    <p style="font-size: 12px; color: #999; margin-top: 3px;">Anexos: Mini Diagnóstico + Respostas</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Resumo do Diagnóstico -->
+        <!-- Quote card -->
         <div class="diagnostico-box">
-            <h3>📄 Resumo do Diagnóstico</h3>
-            <p>{{ diagnostico }}</p>
+            <h3>✦ &nbsp; Raio X Comercial</h3>
+            <span class="quote-marks">"</span>
+            <p class="quote-text">
+                Venda Mais.<br>
+            </p>
+            <span class="quote-author">Diagnóstico concluído com sucesso</span>
+            <div class="quote-line"></div>
         </div>
 
         <!-- Botões de Ação -->
         <div class="action-buttons">
             <a href="/" class="btn btn-primary">
-                ➕ Novo Diagnóstico
+                Novo Diagnóstico
             </a>
             <a href="/forms" class="btn btn-secondary">
                 ← Voltar
@@ -78,6 +73,7 @@
             <p>Obrigado por usar o Raio X Comercial!</p>
             <p>Todos os dados foram processados com sucesso.</p>
         </div>
+
     </div>
 </body>
 </html>

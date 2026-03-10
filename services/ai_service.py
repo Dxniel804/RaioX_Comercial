@@ -48,7 +48,7 @@ def gerar_diagnostico(respostas):
         response = model.generate_content(
             prompt_completo,
             generation_config=genai.types.GenerationConfig(
-                max_output_tokens=8000,  # Aumentado significativamente para análise completa até seção 13 + próximos passos
+                max_output_tokens=12000,  # Aumentado DRASTICAMENTE para análise completa até seção 13 (10. Riscos + 11. Prioridades + 12. Insight Final + 13. Próximos Passos)
                 temperature=0.6,  # Reduzido para mais consistência
                 top_p=0.95,  # Otimizado para qualidade
                 top_k=40  # Configurado para diversidade controlada
