@@ -1,0 +1,483 @@
+{
+  "perguntas": [
+    {
+      "id": 1,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "A empresa possui metas comerciais claras e formalizadas?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim, com metas claras e acompanhadas regularmente",
+        "Sim, mas sem acompanhamento consistente",
+        "Não formalizadas",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 2,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "Existe um planejamento comercial anual estruturado?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim e é revisado periodicamente",
+        "Existe parcialmente",
+        "Não existe planejamento estruturado",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 3,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "A empresa possui definição clara de público-alvo e ICP?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim claramente definido",
+        "Parcialmente definido",
+        "Não definido",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 4,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "O posicionamento comercial da empresa é claro para o mercado?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Muito claro",
+        "Moderadamente claro",
+        "Pouco claro",
+        "Não sei avaliar"
+      ]
+    },
+    {
+      "id": 5,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "A empresa possui diferenciais competitivos bem definidos?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim e são comunicados ao mercado",
+        "Sim, mas pouco explorados",
+        "Não estão claros",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 6,
+      "pilar": 2,
+      "pilar_nome": "Estrutura da Equipe Comercial",
+      "pergunta": "Quantos vendedores ativos existem hoje?",
+      "tipo": "texto_livre"
+    },
+    {
+      "id": 7,
+      "pilar": 2,
+      "pilar_nome": "Estrutura da Equipe Comercial",
+      "pergunta": "A equipe possui papéis comerciais definidos? (ex: SDR, closer, farmer)",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim claramente",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 8,
+      "pilar": 2,
+      "pilar_nome": "Estrutura da Equipe Comercial",
+      "pergunta": "A empresa possui líderes comerciais estruturados?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 9,
+      "pilar": 2,
+      "pilar_nome": "Estrutura da Equipe Comercial",
+      "pergunta": "Existe treinamento estruturado para vendedores?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim contínuo",
+        "Ocasional",
+        "Não existe",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 10,
+      "pilar": 2,
+      "pilar_nome": "Estrutura da Equipe Comercial",
+      "pergunta": "A rotatividade da equipe comercial é:",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Baixa",
+        "Moderada",
+        "Alta",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 11,
+      "pilar": 3,
+      "pilar_nome": "Processo de Vendas",
+      "pergunta": "Existe um processo de vendas formalizado?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim documentado",
+        "Parcialmente definido",
+        "Não existe",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 12,
+      "pilar": 3,
+      "pilar_nome": "Processo de Vendas",
+      "pergunta": "O processo comercial é seguido pela equipe?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim com consistência",
+        "Parcialmente",
+        "Pouco seguido",
+        "Não sei avaliar"
+      ]
+    },
+    {
+      "id": 13,
+      "pilar": 3,
+      "pilar_nome": "Processo de Vendas",
+      "pergunta": "A empresa utiliza CRM?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim e é bem utilizado",
+        "Sim mas pouco utilizado",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 14,
+      "pilar": 3,
+      "pilar_nome": "Processo de Vendas",
+      "pergunta": "O funil de vendas é monitorado?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim regularmente",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 15,
+      "pilar": 3,
+      "pilar_nome": "Processo de Vendas",
+      "pergunta": "A empresa analisa motivos de perda de vendas?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim regularmente",
+        "Às vezes",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 16,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Como a empresa gera a maior parte das vendas?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Prospecção ativa",
+        "Marketing / inbound",
+        "Indicações",
+        "Carteira existente"
+      ]
+    },
+    {
+      "id": 17,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Existe estratégia estruturada de geração de leads?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 18,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Existe integração entre marketing e vendas?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 19,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "O volume de oportunidades no funil hoje é:",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Alto",
+        "Moderado",
+        "Baixo",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 20,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "A empresa depende de poucos clientes?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Não",
+        "Moderadamente",
+        "Muito",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 21,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Qual percentual das vendas vem de clientes recorrentes?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Mais de 80%",
+        "Entre 60% e 80%",
+        "Entre 40% e 60%",
+        "Menos de 40%",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 22,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Quantas novas oportunidades entram no funil comercial por mês?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Mais de 40",
+        "Entre 20 e 40",
+        "Entre 10 e 20",
+        "Menos de 10",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 23,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "A empresa conhece a taxa de conversão do funil comercial (de oportunidade para venda)?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim e acompanha regularmente",
+        "Sim mas não acompanha regularmente",
+        "Não conhece",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 24,
+      "pilar": 4,
+      "pilar_nome": "Geração de Demanda",
+      "pergunta": "Hoje, qual você acredita ser o principal desafio para crescer as vendas?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Gerar mais oportunidades",
+        "Melhorar conversão",
+        "Aumentar ticket médio",
+        "Melhorar gestão da equipe",
+        "Estruturar estratégia comercial",
+        "Não está claro"
+      ]
+    },
+    {
+      "id": 25,
+      "pilar": 5,
+      "pilar_nome": "Gestão e Indicadores",
+      "pergunta": "A empresa acompanha indicadores comerciais?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim regularmente",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 26,
+      "pilar": 5,
+      "pilar_nome": "Gestão e Indicadores",
+      "pergunta": "Os gestores utilizam indicadores para tomar decisões?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 27,
+      "pilar": 5,
+      "pilar_nome": "Gestão e Indicadores",
+      "pergunta": "Existe previsão de vendas confiável?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 28,
+      "pilar": 5,
+      "pilar_nome": "Gestão e Indicadores",
+      "pergunta": "A empresa mede taxa de conversão comercial?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 29,
+      "pilar": 5,
+      "pilar_nome": "Gestão e Indicadores",
+      "pergunta": "O desempenho individual da equipe é monitorado?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 30,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "A empresa consegue prever faturamento futuro?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim com boa precisão",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 31,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "O crescimento das vendas é previsível?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei avaliar"
+      ]
+    },
+    {
+      "id": 32,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "Hoje, o crescimento das vendas da empresa depende mais de:",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Processos comerciais estruturados",
+        "Iniciativas individuais dos vendedores",
+        "Indicações e oportunidades que surgem naturalmente",
+        "Não sei avaliar"
+      ]
+    },
+    {
+      "id": 33,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "Se o faturamento cair no próximo trimestre, sua empresa conseguiria identificar rapidamente o motivo?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim, temos indicadores claros",
+        "Parcialmente",
+        "Não, seria difícil identificar",
+        "Não sei avaliar"
+      ]
+    },
+    {
+      "id": 34,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "Existe estratégia clara de crescimento comercial?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim",
+        "Parcialmente",
+        "Não",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 35,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "A empresa depende de poucas pessoas para vender?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Não",
+        "Parcialmente",
+        "Sim",
+        "Não sei informar"
+      ]
+    },
+    {
+      "id": 36,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "Se o principal vendedor saísse hoje o impacto seria:",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Pequeno",
+        "Moderado",
+        "Alto",
+        "Muito alto"
+      ]
+    },
+    {
+      "id": 37,
+      "pilar": 6,
+      "pilar_nome": "Previsibilidade e Escala",
+      "pergunta": "Se sua empresa recebesse hoje o dobro de oportunidades comerciais, sua equipe conseguiria absorver esse crescimento com qualidade?",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Sim, a estrutura suportaria",
+        "Sim, mas com algumas dificuldades",
+        "Provavelmente não",
+        "Definitivamente não"
+      ]
+    }
+  ]
+}

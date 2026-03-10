@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+</head>
+<body>
+    <h1>Formulário - Dados do Cliente</h1><br><br>
+    <h2><span>Dados de Identificação (obrigatórios)</span></h2>
+    <form action="/forms" method='post'>
+
+        <label for="nome">Nome Completo:</label><br>
+        <input type="text" id="nome" name="nome" placeholder="Seu Nome Completo" required><br><br>
+
+        <label for="cargo">Cargo:</label><br>
+        <input type="text" id="cargo" name="cargo" placeholder="Seu Cargo"><br><br>
+
+        <label for="empresa">Empresa:</label><br>
+        <input type="text" id="empresa" name="empresa" placeholder="Nome da Empresa"><br><br>
+
+        <label for="email">Email Comporativo:</label><br>
+        <input type="email" id="email" name="email" placeholder="Seu Email Comporativo" required><br><br>
+
+        <label for="telefone">Telefone ou WhatsApp:</label><br>
+        <input type="tel" id="telefone" name="telefone" placeholder="Ex: (00) 00000-0000" required><br><br>
+
+        <label for="cidade">Cidade:</label><br>
+        <input type="text" id="cidade" name="cidade" placeholder="Sua Cidade"><br><br>
+
+        <label for="segmento_empresa">Segmento da Empresa:</label><br>
+        <input type="text" id="segmento_empresa" name="segmento_empresa" placeholder="Segmento da Empresa"><br><br>
+
+        <label for="num_colaboradores">Número de Colaboradores:</label><br>
+        <input type="number" id="num_colaboradores" name="num_colaboradores" placeholder="Número aproximado de colaboradores:"><br><br>
+    
+        <p>Faturamento anual aproximado:</p>
+
+        <input type="radio" id="fat1" name="faturamento" value="ate_5m" required>
+        <label for="fat1">Até R$5 milhões</label><br>
+
+        <input type="radio" id="fat2" name="faturamento" value="5_a_20m">
+        <label for="fat2">R$5 a 20 milhões</label><br>
+
+        <input type="radio" id="fat3" name="faturamento" value="20_a_100m">
+        <label for="fat3">R$20 a 100 milhões</label><br>
+
+        <input type="radio" id="fat4" name="faturamento" value="acima_100m">
+        <label for="fat4">Acima de R$100 milhões</label><br><br>
+
+        <button type="submit">Enviar dados</button>
+
+    </form>
+</body>
+</html>

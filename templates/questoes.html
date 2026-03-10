@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões</title>
+</head>
+<body>
+    <form method="POST" action="/analisar">
+        {% for pergunta in perguntas %}
+        <div class="pergunta">
+            <label><strong>{{ pergunta.id }}. {{ pergunta.pergunta }}</strong></label>
+            
+            {% for resposta in pergunta.respostas %}
+            <div class="opcao">
+                <input type="checkbox" 
+                    name="pergunta_{{ pergunta.id }}" 
+                    value="{{ resposta }}">
+                <label>{{ resposta }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+        <button type="submit">Analisar</button>
+    </form>
+</body>
+</html>
