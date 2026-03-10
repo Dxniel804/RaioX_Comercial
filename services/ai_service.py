@@ -30,29 +30,28 @@ def gerar_diagnostico(respostas):
         
         genai.configure(api_key=api_key)
         
-        # Carrega o prompt base
+        # Carrega o prompt base (prompt completo com 13 seções de análise)
         prompt_base = ler_prompt()
         
-        # Formata as respostas
+        # Formata as respostas do cliente
         prompt_completo = prompt_base + "\n\n=== RESPOSTAS DO CLIENTE ===\n"
         
-        for pergunta, resposta in respostas.items():
-            prompt_completo += f"\n{pergunta}: {resposta}"
-        
-        prompt_completo += "\n\n=== DIAGNÓSTICO REQUERIDO ===\n"
-        prompt_completo += "Gere um diagnóstico executivo com: 1) Situação atual, 2) Pontos fortes, 3) Oportunidades, 4) Recomendações"
+        # Adicionar cada resposta ao prompt
+        for idx, (chave, resposta) in enumerate(respostas.items(), 1):
+            resposta_str = str(resposta).strip()
+            prompt_completo += f"\nPergunta {idx}: {resposta_str}"
         
         # Força o uso de gemini-2.5-flash (modelo mais novo e disponível)
         model = genai.GenerativeModel('gemini-2.5-flash')
         
-        # Gera a resposta com PROCESSAMENTO OTIMIZADO
+        # Gera a resposta com PROCESSAMENTO OTIMIZADO PARA ANÁLISE COMPLETA
         response = model.generate_content(
             prompt_completo,
             generation_config=genai.types.GenerationConfig(
-                max_output_tokens=1500,  # Reduzido de 2500 para não atingir limite
-                temperature=0.7,  # Reduzido de 0.8 para ser mais direto
-                top_p=0.9,  # Reduzido para evitar estouro
-                top_k=30  # Reduzido para evitar estouro
+                max_output_tokens=8000,  # Aumentado significativamente para análise completa até seção 13 + próximos passos
+                temperature=0.6,  # Reduzido para mais consistência
+                top_p=0.95,  # Otimizado para qualidade
+                top_k=40  # Configurado para diversidade controlada
             )
         )
         

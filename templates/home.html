@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raio X Comercial</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ─────────────────────────────────────── -->
+  <header>
+    <div class="logo">
+      <!-- crosshair icon -->
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="13" stroke="#c8a96e" stroke-width="1.5"/>
+        <circle cx="16" cy="16" r="7"  stroke="#c8a96e" stroke-width="1.5"/>
+        <circle cx="16" cy="16" r="2"  fill="#c8a96e"/>
+        <line x1="16" y1="2"  x2="16" y2="9"  stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16" y1="23" x2="16" y2="30" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="2"  y1="16" x2="9"  y2="16" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="23" y1="16" x2="30" y2="16" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-name">Raio X Comercial</span>
+    </div>
+    <span class="badge">Diagnóstico Comercial</span>
+  </header>
+
+  <!-- ── Hero ───────────────────────────────────────── -->
+  <main class="hero">
+
+    <p class="eyebrow">Análise & Diagnóstico</p>
+
+    <!-- Radar animation -->
+    <div class="radar-wrap">
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-cross"></div>
+      <div class="radar-dot"></div>
+    </div>
+
+    <h1 class="hero-title">Raio X <em>Comercial</em></h1>
+    <p class="hero-subtitle">
+      Identifique os pontos críticos da sua operação comercial com um diagnóstico
+      preciso e estruturado. Em poucos minutos, revele o que está travando seu crescimento.
+    </p>
+
+    <div class="cta-wrap">
+      <a href="/forms" class="btn-primary">
+        <span>Iniciar Diagnóstico</span>
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <span class="cta-hint">Leva menos de 5 minutos · 100% gratuito</span>
+    </div>
+
+    <!-- Feature strip -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 13l4-4 3 3 4-5 3 3" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <strong>Diagnóstico Preciso</strong>
+          <span>Mapeamento completo da sua operação comercial</span>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="9" r="7" stroke="#c8a96e" stroke-width="1.5"/>
+            <path d="M9 5v4l3 2" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <strong>Resultado Imediato</strong>
+          <span>Análise gerada automaticamente ao finalizar</span>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 2l1.8 3.6L15 6.3l-3 2.9.7 4.1L9 11.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7L9 2z" stroke="#c8a96e" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <strong>Insights Acionáveis</strong>
+          <span>Recomendações claras para evolução do time</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <footer>
+    <p>© 2025 Raio X Comercial · Todos os direitos reservados</p>
+  </footer>
+
+</div>
+</body>
+</html>

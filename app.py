@@ -29,6 +29,8 @@ def index():
         email = request.form.get('email')
         telefone = request.form.get('telefone')
         empresa = request.form.get('empresa')
+        cargo = request.form.get('cargo', '')
+        cidade = request.form.get('cidade', '')
         
         if not nome or not email:
             return "Erro: preencha nome e email", 400
@@ -40,7 +42,9 @@ def index():
             'nome': nome,
             'email': email,
             'telefone': telefone,
-            'empresa': empresa
+            'empresa': empresa,
+            'cargo': cargo,
+            'cidade': cidade
         }
         
         return redirect('/questoes')
@@ -67,11 +71,20 @@ def questoes():
         session['respostas'] = dict(request.form) # request.form é um dicionário com as respostas do formulário, dict() converte para um formato mais fácil de usar
         return redirect('/analisar')
     
-@app.route('/analisar', methods=['GET', 'POST'])
+@app.route('/analisar', methods=['GET'])
 def analisar():
-    
+    """Exibe a página de carregamento da análise"""
     if 'cliente' not in session or 'respostas' not in session:
         return redirect('/forms')
+    
+    return render_template('analisar.html')
+
+
+@app.route('/api/analisar', methods=['POST'])
+def api_analisar():
+    """API que realiza a análise completa (diagnóstico, PDFs e emails)"""
+    if 'cliente' not in session or 'respostas' not in session:
+        return {'erro': 'Dados incompletos'}, 400
     
     try:
         cliente = session['cliente']
@@ -108,11 +121,11 @@ def analisar():
         # 5. Limpar dados temporários
         session.pop('respostas', None)
         
-        # 6. Redirecionar
-        return redirect('/sucesso')
+        return {'sucesso': True}, 200
     
     except Exception as e:
-        return f"Erro ao processar: {str(e)}", 500
+        print(f"❌ Erro na análise: {str(e)}")
+        return {'erro': str(e)}, 500
 
 
 @app.route('/sucesso', methods=['GET'])
