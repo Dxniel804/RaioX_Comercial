@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Inicia com Gunicorn (servidor de produção)
-CMD gunicorn -w 4 -b 0.0.0.0:$PORT app:app
+CMD gunicorn -w 1 -b 0.0.0.0:$PORT app:app
