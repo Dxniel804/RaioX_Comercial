@@ -10,7 +10,7 @@ from services.email_service import EmailService
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'seu_codigo_secreto_aqui_123'  # Mude isso para uma chave segura
+app.secret_key = os.getenv('SECRET_KEY', 'fallback_local')
 
 def carregar_perguntas():
     with open('knowledge/questions.json', 'r', encoding='utf-8') as f:
