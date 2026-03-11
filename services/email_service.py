@@ -67,16 +67,13 @@ class EmailService:
             msg['To'] = destinatario
             msg['Subject'] = assunto
             
-            # Adiciona o corpo do email
             msg.attach(MIMEText(corpo, 'plain'))
             
-            # Anexa os PDFs
             for arquivo_path in anexos:
                 self._anexar_arquivo(msg, arquivo_path)
             
-            # Conecta e envia
-            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
-                server.starttls()
+            # Troca SMTP + starttls por SMTP_SSL na porta 465
+            with smtplib.SMTP_SSL(self.smtp_server, 465) as server:
                 server.login(self.email_user, self.email_password)
                 server.send_message(msg)
             
