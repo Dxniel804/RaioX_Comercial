@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia todo o conteúdo do seu projeto para dentro do contêiner
 COPY . .
 
-# Informa que o contêiner vai usar a porta 5000
+# Render define a porta via variável $PORT automaticamente
 EXPOSE 8000
 
-# Comando para rodar o Flask aceitando conexões externas (importante para o celular!)
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:$PORT", "app:app"]
+# Inicia com Gunicorn (servidor de produção)
+CMD gunicorn -w 4 -b 0.0.0.0:$PORT app:app
