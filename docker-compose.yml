@@ -8,6 +8,4 @@ services:
     volumes:
       - .:/app
     environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
-      - SECRET_KEY=63f76032421b8be2f858c87344eb01bfcf05fd3953fca613aad8d169b53fd405
+      - .env
