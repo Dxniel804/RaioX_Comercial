@@ -1,4 +1,5 @@
 import smtplib
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -28,27 +29,36 @@ class EmailService:
         if self.email_configurado:
             self.smtp_port = int(self.smtp_port)
     
+    def _validar_email(self, email):
+        """Valida o formato do email usando regex"""
+        padrao = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return re.match(padrao, email) is not None
+    
     def enviar_para_cliente(self, cliente_email, pdf_diagnostico, cliente_nome):
         if not self.email_configurado:
             print("⚠️ Email não configurado - pulando envio para cliente")
             return
             
+        if not self._validar_email(cliente_email):
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
+            return  
+            
         assunto = "Seu Diagnóstico - Raio X Comercial"
-        corpo = f"""
-        Olá {cliente_nome},
+        corpo = f"""\
+Olá {cliente_nome},
+
+Segue em anexo seu diagnóstico personalizado do Raio X Comercial.
+
+Este diagnóstico foi gerado com base nas informações que você forneceu e apresenta uma análise detalhada sobre a saúde comercial da sua empresa.
+
+Qualquer dúvida, entre em contato conosco!
+
+Atenciosamente,
+Equipe de Análise Comercial"""
         
-        Segue em anexo seu diagnóstico personalizado do Raio X Comercial.
-        
-        Este diagnóstico foi gerado com base nas informações que você forneceu
-        e apresenta uma análise detalhada sobre a saúde comercial da sua empresa.
-        
-        Qualquer dúvida, entre em contato conosco!
-        
-        Atenciosamente,
-        Equipe de Análise Comercial
-        """
-        
-        self._enviar_email(cliente_email, assunto, corpo, [pdf_diagnostico])
+        resultado = self._enviar_email(cliente_email, assunto, corpo, [pdf_diagnostico])
+        if not resultado:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
     
     def enviar_para_diretor(self, pdf_diagnostico, pdf_respostas, cliente_nome, cliente_empresa):
         if not self.email_configurado or not self.director_email:
@@ -57,25 +67,26 @@ class EmailService:
             
         assunto = f"Novo Raio X Comercial - {cliente_nome} ({cliente_empresa})"
         corpo = f"""
-        Novo Raio X Comercial recebido!
+Novo Raio X Comercial recebido!
+
+Cliente: {cliente_nome}
+Empresa: {cliente_empresa}
+
+Em anexo você encontra:
+1. Mini Diagnóstico - Análise da saúde comercial
+2. Perguntas com Respostas - Detalhamento das respostas coletadas
+
+Atenciosamente,
+Sistema Raio X Comercial"""
         
-        Cliente: {cliente_nome}
-        Empresa: {cliente_empresa}
-        
-        Em anexo você encontra:
-        1. Mini Diagnóstico - Análise da saúde comercial
-        2. Perguntas com Respostas - Detalhamento das respostas coletadas
-        
-        Atenciosamente,
-        Sistema Raio X Comercial
-        """
-        
-        self._enviar_email(
+        resultado = self._enviar_email(
             self.director_email, 
             assunto, 
             corpo, 
             [pdf_diagnostico, pdf_respostas]
         )
+        if not resultado:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
     
     def _enviar_email(self, destinatario, assunto, corpo, anexos):
         try:
@@ -97,9 +108,21 @@ class EmailService:
             print(f"✅ Email enviado com sucesso para {destinatario}")
             return True
         
+        except smtplib.SMTPRecipientsRefused:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
+            return False
+        except smtplib.SMTPSenderRefused:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
+            return False
+        except smtplib.SMTPDataError:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
+            return False
+        except smtplib.SMTPException:
+            print("❌ Diagnóstico não enviado pois o email que foi inserido não foi encontrado")
+            return False
         except Exception as e:
             print(f"❌ Erro ao enviar email: {str(e)}")
-            raise
+            return False
     
     def _anexar_arquivo(self, msg, arquivo_path):
         try:

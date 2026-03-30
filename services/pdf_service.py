@@ -333,7 +333,7 @@ def carregar_perguntas():
 
 def gerar_pdf_diagnostico(cliente, diagnostico):
     criar_diretorio_se_nao_existe('diagnosticos')
-    caminho = f"diagnosticos/pdf_{cliente['nome']}.pdf"
+    caminho = f"diagnosticos/Raio-X_Comercial_{cliente['empresa']}.pdf"
     
     # DEBUG: Verificar dados do cliente
     print(f"DEBUG - Cliente recebido: {cliente}")
@@ -383,7 +383,7 @@ def gerar_pdf_diagnostico(cliente, diagnostico):
 
 def gerar_pdf_respostas(cliente, respostas):
     criar_diretorio_se_nao_existe('respostas')
-    caminho = f"respostas/pdf_{cliente['nome']}.pdf"
+    caminho = f"respostas/Respostas_Raio-X_{cliente['empresa']}.pdf"
 
     perguntas = carregar_perguntas()
 
