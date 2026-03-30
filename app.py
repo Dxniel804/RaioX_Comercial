@@ -39,6 +39,11 @@ def verificar_configuracao():
 verificar_configuracao()
 
 def carregar_perguntas():
+    with open('knowledge/forms.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        return data['perguntas']
+
+def carregar_questoes_diagnostico():
     with open('knowledge/questions.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
         return data['perguntas']
@@ -57,6 +62,9 @@ def index():
         empresa = request.form.get('empresa')
         cargo = request.form.get('cargo', '')
         cidade = request.form.get('cidade', '')
+        segmento_empresa = request.form.get('segmento_empresa', '')
+        num_colaboradores = request.form.get('num_colaboradores', '')
+        faturamento = request.form.get('faturamento', '')
         
         if not nome or not email:
             return "Erro: preencha nome e email", 400
@@ -70,12 +78,16 @@ def index():
             'telefone': telefone,
             'empresa': empresa,
             'cargo': cargo,
-            'cidade': cidade
+            'cidade': cidade,
+            'segmento_empresa': segmento_empresa,
+            'num_colaboradores': num_colaboradores,
+            'faturamento': faturamento
         }
         
         return redirect('/questoes')
     
-    return render_template('forms.html')
+    perguntas = carregar_perguntas()
+    return render_template('forms.html', perguntas=perguntas)
             
     
 @app.route('/questoes', methods=['GET', 'POST'])    
@@ -87,7 +99,7 @@ def questoes():
         return redirect(url_for('forms'))
     
     if request.method == 'GET':
-        perguntas = carregar_perguntas()
+        perguntas = carregar_questoes_diagnostico()
 
         # perguntas=... da esquerda, nome que a variavel tera dentro do HTML
         # perguntas... da direita, nome da variavel que contem as perguntas dentro do Python

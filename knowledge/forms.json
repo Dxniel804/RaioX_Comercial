@@ -1,0 +1,30 @@
+{
+  "perguntas": [
+    {
+      "id": 1,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "Estrutura de vendas utilizada: (múltipla escolha)",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Representantes comerciais",
+        "Vendedores internos (inside sales)",
+        "Vendedores externos (campo)",
+        "Key Account (gestão de grandes contas)",
+        "E-commerce"
+      ]
+    },
+    {
+      "id": 2,
+      "pilar": 1,
+      "pilar_nome": "Estratégia Comercial",
+      "pergunta": "Canais de vendas utilizados pela sua empresa:",
+      "tipo": "multipla_escolha",
+      "respostas": [
+        "Venda direta ao cliente final",
+        "Venda indireta (distribuidores, atacado, etc.)",
+        "Modelo híbrido (direto + indireto)"
+      ]
+    }
+  ]
+}

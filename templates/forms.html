@@ -53,52 +53,81 @@
         </div>
 
         <div class="field-group">
-            <label for="num_colaboradores">Número de Colaboradores</label>
-            <input type="number" id="num_colaboradores" name="num_colaboradores" placeholder="Número aproximado">
+            <p>Número de Colaboradores</p>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="num_colaboradores" value="ate_10" required>
+                    <span>Até 50</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="num_colaboradores" value="11_a_50">
+                    <span>50 a 150</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="num_colaboradores" value="51_a_100">
+                    <span>150 a 500</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="num_colaboradores" value="mais_100">
+                    <span>Acima de 500</span>
+                </label>
+            </div>
         </div>
 
         <div class="field-group">
             <p>Faturamento anual aproximado</p>
             <div class="radio-group">
                 <label class="radio-option">
-                    <input type="radio" name="faturamento" value="ate_5m" required>
-                    <span>Até R$ 5 milhões</span>
+                    <input type="radio" name="faturamento" value="abaixo_60mi" required>
+                    <span>Abaixo de R$ 60 Mi</span>
                 </label>
                 <label class="radio-option">
-                    <input type="radio" name="faturamento" value="5_a_20m">
-                    <span>R$ 5 a 20 milhões</span>
+                    <input type="radio" name="faturamento" value="60mi_a_100mi">
+                    <span>R$ 60Mi a 100Mi</span>
                 </label>
                 <label class="radio-option">
-                    <input type="radio" name="faturamento" value="20_a_100m">
-                    <span>R$ 20 a 100 milhões</span>
+                    <input type="radio" name="faturamento" value="100mi_a_300mi">
+                    <span>•	R$ 100Mi a 300Mi </span>
                 </label>
                 <label class="radio-option">
-                    <input type="radio" name="faturamento" value="acima_100m">
-                    <span>Acima de R$ 100 milhões</span>
+                    <input type="radio" name="faturamento" value="300mi_a_1bi">
+                    <span>•	R$ 300Mi a 1Bi </span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="faturamento" value="acima_1bi">
+                    <span>Acima de R$ 1Bi</span>
                 </label>
             </div>
         </div>
 
-        <button type="submit">Enviar dados</button>
+        {% for pergunta in perguntas %}
+        <div class="pergunta">
+            <label><strong>{{ pergunta.id }}. {{ pergunta.pergunta }}</strong></label>
+            
+            {% if pergunta.tipo == 'multipla_escolha' %}
+                <div class="radio-group">
+                {% for resposta in pergunta.respostas %}
+                <label class="radio-option">
+                    <input type="radio" 
+                        name="pergunta_{{ pergunta.id }}" 
+                        value="{{ resposta }}">
+                    <span>{{ resposta }}</span>
+                </label>
+                {% endfor %}
+                </div>
+                
+            {% elif pergunta.tipo == 'texto_livre' %}
+                <input type="text" 
+                    name="pergunta_{{ pergunta.id }}" 
+                    placeholder="Digite sua resposta..."
+                    style="width: 100%; padding: 8px; margin: 10px 0;">
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-enviar">Enviar dados</button>
 
     </form>
 
-<script>
-    // Garante que apenas um radio button seja selecionado por grupo
-    document.addEventListener('DOMContentLoaded', function() {
-        const radioGroups = document.querySelectorAll('input[type="radio"][name="faturamento"]');
-        
-        radioGroups.forEach(radio => {
-            radio.addEventListener('change', function() {
-                // Desmarca todos os outros radios do mesmo grupo
-                radioGroups.forEach(otherRadio => {
-                    if (otherRadio !== this) {
-                        otherRadio.checked = false;
-                    }
-                });
-            });
-        });
-    });
-</script>
 </body>
 </html>
