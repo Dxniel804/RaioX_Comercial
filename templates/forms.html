@@ -83,5 +83,22 @@
 
     </form>
 
+<script>
+    // Garante que apenas um radio button seja selecionado por grupo
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioGroups = document.querySelectorAll('input[type="radio"][name="faturamento"]');
+        
+        radioGroups.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Desmarca todos os outros radios do mesmo grupo
+                radioGroups.forEach(otherRadio => {
+                    if (otherRadio !== this) {
+                        otherRadio.checked = false;
+                    }
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

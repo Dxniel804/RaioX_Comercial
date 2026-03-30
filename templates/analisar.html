@@ -60,6 +60,8 @@
 
         // Fazer a análise via AJAX
         async function iniciarAnalise() {
+            console.log('🚀 Iniciando análise...');
+            
             try {
                 const response = await fetch('/api/analisar', {
                     method: 'POST',
@@ -68,25 +70,42 @@
                     }
                 });
 
+                console.log('📡 Resposta recebida:', response.status);
+
                 if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Análise concluída:', data);
+                    
                     // Aguardar 1 segundo antes de redirecionar para melhor UX
                     setTimeout(() => {
+                        console.log('🔄 Redirecionando para sucesso...');
                         window.location.href = '/sucesso';
                     }, 1000);
                 } else {
+                    const errorData = await response.json();
+                    console.error('❌ Erro na API:', errorData);
+                    
                     clearInterval(stepInterval);
-                    document.querySelector('.subtitle').textContent = 'Erro ao processar análise. Redirecionando...';
+                    document.querySelector('.subtitle').textContent = `Erro: ${errorData.erro || 'Erro ao processar análise'}. Redirecionando...`;
+                    
+                    // Mostrar detalhes do erro no console
+                    console.error('Status:', response.status);
+                    console.error('Erro:', errorData);
+                    
                     setTimeout(() => {
+                        console.log('🔄 Redirecionando para forms devido a erro...');
                         window.location.href = '/forms';
-                    }, 3000);
+                    }, 5000); // Aumentado para 5 segundos para permitir leitura do erro
                 }
             } catch (error) {
-                console.error('Erro:', error);
+                console.error('❌ Erro na requisição:', error);
                 clearInterval(stepInterval);
-                document.querySelector('.subtitle').textContent = 'Erro ao processar. Redirecionando...';
+                document.querySelector('.subtitle').textContent = 'Erro de conexão. Verifique sua internet e tente novamente. Redirecionando...';
+                
                 setTimeout(() => {
+                    console.log('🔄 Redirecionando para forms devido a erro de conexão...');
                     window.location.href = '/forms';
-                }, 3000);
+                }, 5000);
             }
         }
 

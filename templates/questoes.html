@@ -20,7 +20,7 @@
             {% if pergunta.tipo == 'multipla_escolha' %}
                 {% for resposta in pergunta.respostas %}
                 <div class="opcao">
-                    <input type="checkbox" 
+                    <input type="radio" 
                         name="pergunta_{{ pergunta.id }}" 
                         value="{{ resposta }}">
                     <label>{{ resposta }}</label>

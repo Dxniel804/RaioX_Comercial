@@ -12,6 +12,32 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'fallback_local')
 
+# Verificar configurações essenciais ao iniciar
+def verificar_configuracao():
+    gemini_key = os.getenv('GEMINI_API_KEY')
+    email_config = {
+        'smtp_server': os.getenv('SMTP_SERVER'),
+        'smtp_port': os.getenv('SMTP_PORT'),
+        'email_user': os.getenv('EMAIL_USER'),
+        'email_password': os.getenv('EMAIL_PASSWORD'),
+        'director_email': os.getenv('DIRECTOR_EMAIL')
+    }
+    
+    print("🔍 Verificando configuração:")
+    print(f"   Gemini API Key: {'✅ Configurada' if gemini_key else '❌ Não configurada'}")
+    print(f"   Email SMTP: {'✅ Configurado' if all(email_config.values()) else '❌ Incompleto'}")
+    
+    if not gemini_key:
+        print("⚠️ AVISO: GEMINI_API_KEY não configurada. A geração de diagnóstico falhará.")
+    
+    if not all(email_config.values()):
+        print("⚠️ AVISO: Configuração de email incompleta. O envio de emails será pulado.")
+    
+    return gemini_key is not None
+
+# Executar verificação ao iniciar
+verificar_configuracao()
+
 def carregar_perguntas():
     with open('knowledge/questions.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -75,29 +101,41 @@ def questoes():
 def analisar():
     """Exibe a página de carregamento da análise"""
     if 'cliente' not in session or 'respostas' not in session:
+        print(f"❌ Sessão inválida - Cliente: {('cliente' in session)}, Respostas: {('respostas' in session)}")
         return redirect('/forms')
     
+    print(f"✅ Sessão válida - Processando análise para: {session['cliente'].get('nome', 'Desconhecido')}")
     return render_template('analisar.html')
 
 
 @app.route('/api/analisar', methods=['POST'])
 def api_analisar():
     """API que realiza a análise completa (diagnóstico, PDFs e emails)"""
+    print(f"🔄 API analisar chamada - Session: {list(session.keys())}")
+    
     if 'cliente' not in session or 'respostas' not in session:
-        return {'erro': 'Dados incompletos'}, 400
+        print(f"❌ Sessão inválida na API - Cliente: {('cliente' in session)}, Respostas: {('respostas' in session)}")
+        return {'erro': 'Dados incompletos - sessão inválida'}, 400
     
     try:
         cliente = session['cliente']
         respostas = session['respostas']
         
+        print(f"📊 Iniciando análise para: {cliente.get('nome', 'Desconhecido')}")
+        
         # 1. Gerar diagnóstico via IA
+        print("🤖 Gerando diagnóstico via IA...")
         diagnostico = ai_service.gerar_diagnostico(respostas)
+        print("✅ Diagnóstico gerado com sucesso")
         
         # 2. Gerar PDFs
+        print("📄 Gerando PDFs...")
         pdf_diagnostico = pdf.gerar_pdf_diagnostico(cliente, diagnostico)
         pdf_respostas = pdf.gerar_pdf_respostas(cliente, respostas)
+        print("✅ PDFs gerados com sucesso")
         
         # 3. ENVIAR EMAILS
+        print("📧 Enviando emails...")
         email_svc = EmailService()
         
         # Email para o cliente (apenas diagnóstico)
@@ -114,18 +152,25 @@ def api_analisar():
             cliente_nome=cliente['nome'],
             cliente_empresa=cliente['empresa']
         )
+        print("✅ Emails enviados com sucesso")
         
         # 4. Salvar diagnóstico em session
         session['diagnostico'] = diagnostico
+        session.modified = True
+        print("💾 Diagnóstico salvo na sessão")
         
         # 5. Limpar dados temporários
         session.pop('respostas', None)
+        print("🧹 Respostas temporárias limpas")
         
+        print("🎉 Análise concluída com sucesso!")
         return {'sucesso': True}, 200
     
     except Exception as e:
         print(f"❌ Erro na análise: {str(e)}")
-        return {'erro': str(e)}, 500
+        import traceback
+        traceback.print_exc()
+        return {'erro': f'Erro durante processamento: {str(e)}'}, 500
 
 
 @app.route('/sucesso', methods=['GET'])

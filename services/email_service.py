@@ -14,12 +14,25 @@ class EmailService:
     def __init__(self):
         """Inicializa as credenciais de email do .env"""
         self.smtp_server = os.getenv('SMTP_SERVER')
-        self.smtp_port = int(os.getenv('SMTP_PORT'))
+        self.smtp_port = os.getenv('SMTP_PORT')
         self.email_user = os.getenv('EMAIL_USER')
         self.email_password = os.getenv('EMAIL_PASSWORD')
         self.director_email = os.getenv('DIRECTOR_EMAIL')
+        
+        # Verifica se o email está configurado
+        self.email_configurado = all([
+            self.smtp_server, self.smtp_port, 
+            self.email_user, self.email_password
+        ])
+        
+        if self.email_configurado:
+            self.smtp_port = int(self.smtp_port)
     
     def enviar_para_cliente(self, cliente_email, pdf_diagnostico, cliente_nome):
+        if not self.email_configurado:
+            print("⚠️ Email não configurado - pulando envio para cliente")
+            return
+            
         assunto = "Seu Diagnóstico - Raio X Comercial"
         corpo = f"""
         Olá {cliente_nome},
@@ -38,6 +51,10 @@ class EmailService:
         self._enviar_email(cliente_email, assunto, corpo, [pdf_diagnostico])
     
     def enviar_para_diretor(self, pdf_diagnostico, pdf_respostas, cliente_nome, cliente_empresa):
+        if not self.email_configurado or not self.director_email:
+            print("⚠️ Email não configurado - pulando envio para diretor")
+            return
+            
         assunto = f"Novo Raio X Comercial - {cliente_nome} ({cliente_empresa})"
         corpo = f"""
         Novo Raio X Comercial recebido!
