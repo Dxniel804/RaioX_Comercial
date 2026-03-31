@@ -25,15 +25,11 @@
             </div>
             <div class="step">
                 <div class="step-icon">⚙</div>
-                <span>Gerando o Diagnóstico</span>
+                <span>Gerando Diagnóstico</span>
             </div>
             <div class="step">
-                <div class="step-icon">📄</div>
-                <span>Criando PDFs</span>
-            </div>
-            <div class="step">
-                <div class="step-icon">✉</div>
-                <span>Enviando Emails</span>
+                <div class="step-icon">�</div>
+                <span>Enviando por Email</span>
             </div>
         </div>
 
@@ -48,7 +44,7 @@
         const steps = document.querySelectorAll('.step');
         
         const stepInterval = setInterval(() => {
-            step = (step + 1) % steps.length;
+            step = Math.min(step + 1, steps.length - 1);
             
             steps.forEach((s, index) => {
                 s.classList.remove('active');
@@ -56,7 +52,12 @@
                     s.classList.add('active');
                 }
             });
-        }, 2000);
+            
+            // Parar no último passo
+            if (step >= steps.length - 1) {
+                clearInterval(stepInterval);
+            }
+        }, 1500);
 
         // Fazer a análise via AJAX
         async function iniciarAnalise() {
@@ -75,6 +76,17 @@
                 if (response.ok) {
                     const data = await response.json();
                     console.log('✅ Análise concluída:', data);
+                    
+                    // Iniciar processamento background para PDFs e emails
+                    console.log('🔄 Iniciando processamento background...');
+                    fetch('/api/processar_background', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).catch(error => {
+                        console.log('⚠️ Erro no processamento background (não bloqueia):', error);
+                    });
                     
                     // Aguardar 1 segundo antes de redirecionar para melhor UX
                     setTimeout(() => {

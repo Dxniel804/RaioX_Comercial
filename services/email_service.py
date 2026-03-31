@@ -100,10 +100,12 @@ Sistema Raio X Comercial"""
             for arquivo_path in anexos:
                 self._anexar_arquivo(msg, arquivo_path)
             
-            # Troca SMTP + starttls por SMTP_SSL na porta 465
-            with smtplib.SMTP_SSL(self.smtp_server, 465) as server:
-                server.login(self.email_user, self.email_password)
-                server.send_message(msg)
+            # Usar STARTTLS na porta 587 (Gmail)
+            server = smtplib.SMTP(self.smtp_server, self.smtp_port)
+            server.starttls()
+            server.login(self.email_user, self.email_password)
+            server.send_message(msg)
+            server.quit()
             
             print(f"✅ Email enviado com sucesso para {destinatario}")
             return True

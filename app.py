@@ -5,6 +5,8 @@ import json
 import services.ai_service as ai_service
 import services.pdf_service as pdf
 from services.email_service import EmailService
+import tempfile
+import uuid
 
 
 load_dotenv()
@@ -122,11 +124,7 @@ def analisar():
 
 @app.route('/api/analisar', methods=['POST'])
 def api_analisar():
-    """API que realiza a análise completa (diagnóstico, PDFs e emails)"""
-    print(f"🔄 API analisar chamada - Session: {list(session.keys())}")
-    
     if 'cliente' not in session or 'respostas' not in session:
-        print(f"❌ Sessão inválida na API - Cliente: {('cliente' in session)}, Respostas: {('respostas' in session)}")
         return {'erro': 'Dados incompletos - sessão inválida'}, 400
     
     try:
@@ -135,68 +133,92 @@ def api_analisar():
         
         print(f"📊 Iniciando análise para: {cliente.get('nome', 'Desconhecido')}")
         
-        # 1. Gerar diagnóstico via IA
-        print("🤖 Gerando diagnóstico via IA...")
         diagnostico = ai_service.gerar_diagnostico(respostas)
         print("✅ Diagnóstico gerado com sucesso")
         
-        # 2. Gerar PDFs
-        print("📄 Gerando PDFs...")
+        # Salvar em arquivo temporário em vez de na sessão
+        token = str(uuid.uuid4())
+        caminho = f"diagnosticos/temp_{token}.txt"
+        os.makedirs("diagnosticos", exist_ok=True)
+        with open(caminho, 'w', encoding='utf-8') as f:
+            f.write(diagnostico)
+        
+        session['diagnostico_token'] = token  # só o token fica na sessão (pequeno)
+        session.modified = True
+        print(f"💾 Diagnóstico salvo em arquivo: {caminho}")
+        
+        return {'sucesso': True}, 200
+    
+    except Exception as e:
+        print(f"❌ Erro na análise: {str(e)}")
+        return {'erro': str(e)}, 500
+
+
+@app.route('/api/processar_background', methods=['POST'])
+def api_processar_background():
+    if 'cliente' not in session or 'respostas' not in session:
+        return {'erro': 'Dados incompletos'}, 400
+    
+    try:
+        cliente = session['cliente']
+        respostas = session['respostas']
+        
+        # Ler diagnóstico do arquivo temporário
+        token = session.get('diagnostico_token', '')
+        caminho = f"diagnosticos/temp_{token}.txt"
+        
+        with open(caminho, 'r', encoding='utf-8') as f:
+            diagnostico = f.read()
+        
+        print("📄 Gerando PDFs em background...")
         pdf_diagnostico = pdf.gerar_pdf_diagnostico(cliente, diagnostico)
         pdf_respostas = pdf.gerar_pdf_respostas(cliente, respostas)
-        print("✅ PDFs gerados com sucesso")
         
-        # 3. ENVIAR EMAILS
-        print("📧 Enviando emails...")
+        print("📧 Enviando emails em background...")
         email_svc = EmailService()
-        
-        # Email para o cliente (apenas diagnóstico)
         email_svc.enviar_para_cliente(
             cliente_email=cliente['email'],
             pdf_diagnostico=pdf_diagnostico,
             cliente_nome=cliente['nome']
         )
-        
-        # Email para o diretor (diagnóstico + respostas)
         email_svc.enviar_para_diretor(
             pdf_diagnostico=pdf_diagnostico,
             pdf_respostas=pdf_respostas,
             cliente_nome=cliente['nome'],
             cliente_empresa=cliente['empresa']
         )
-        print("✅ Emails enviados com sucesso")
         
-        # 4. Salvar diagnóstico em session
-        session['diagnostico'] = diagnostico
-        session.modified = True
-        print("💾 Diagnóstico salvo na sessão")
-        
-        # 5. Limpar dados temporários
+        # Limpar arquivo temporário e sessão
+        if os.path.exists(caminho):
+            os.remove(caminho)
         session.pop('respostas', None)
-        print("🧹 Respostas temporárias limpas")
+        session.pop('diagnostico_token', None)
+        print("✅ Processamento background concluído")
         
-        print("🎉 Análise concluída com sucesso!")
         return {'sucesso': True}, 200
     
     except Exception as e:
-        print(f"❌ Erro na análise: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return {'erro': f'Erro durante processamento: {str(e)}'}, 500
-
+        print(f"❌ Erro no processamento background: {str(e)}")
+        return {'erro': str(e)}, 500
 
 @app.route('/sucesso', methods=['GET'])
 def sucesso():
-    
     if 'cliente' not in session:
         return redirect('/forms')
     
     cliente = session['cliente']
-    diagnostico = session.get('diagnostico', 'Diagnóstico não disponível')
     
-    return render_template('sucesso.html',
-                          cliente=cliente,
-                          diagnostico=diagnostico)
+    # Ler diagnóstico do arquivo temporário
+    token = session.get('diagnostico_token', '')
+    caminho = f"diagnosticos/temp_{token}.txt"
+    
+    try:
+        with open(caminho, 'r', encoding='utf-8') as f:
+            diagnostico = f.read()
+    except:
+        diagnostico = 'Diagnóstico não disponível'
+    
+    return render_template('sucesso.html', cliente=cliente, diagnostico=diagnostico)
 
 
 if __name__ == '__main__':

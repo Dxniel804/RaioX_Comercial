@@ -7,5 +7,5 @@ services:
       - "5000:8000"
     volumes:
       - .:/app
-    environment:
+    env_file:
       - .env
