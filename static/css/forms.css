@@ -37,16 +37,22 @@ body {
   padding: 60px 20px 80px;
   line-height: 1.6;
 
-  /* subtle linen texture */
   background-image:
     radial-gradient(circle at 20% 10%, rgba(200,169,110,.12) 0%, transparent 50%),
     radial-gradient(circle at 80% 90%, rgba(26,26,46,.06) 0%, transparent 50%);
 }
 
-/* ── Page title (fora do form) ──────────────────────── */
-h1:not(form h1) {
+/* ── Logo ───────────────────────────────────────────── */
+.logo-vendamais {
+  width: 140px;
+  margin-bottom: 32px;
+  display: block;
+}
+
+/* ── Page title ─────────────────────────────────────── */
+h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-size: clamp(1.4rem, 4vw, 2.3rem);
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -.5px;
@@ -56,7 +62,7 @@ h1:not(form h1) {
   max-width: 640px;
 }
 
-h1:not(form h1)::after {
+h1::after {
   content: '';
   display: block;
   width: 48px;
@@ -75,8 +81,6 @@ form {
   width: 100%;
   max-width: 640px;
   border-top: 4px solid var(--accent);
-
-  /* slide-up entrance */
   animation: fadeUp .55s ease both;
 }
 
@@ -84,8 +88,6 @@ form {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-
 
 h2 {
   font-family: 'DM Sans', sans-serif;
@@ -108,7 +110,8 @@ h2::after {
 }
 
 /* ── Field Groups ───────────────────────────────────── */
-.field-group {
+.field-group,
+.pergunta {
   margin-bottom: 24px;
 }
 
@@ -121,7 +124,6 @@ label {
   margin-bottom: 7px;
 }
 
-/* required asterisk */
 label[for="nome"]::after,
 label[for="email"]::after,
 label[for="telefone"]::after {
@@ -142,8 +144,9 @@ input[type="number"] {
   background: #fafaf8;
   color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
-  font-size: .93rem;
   font-weight: 300;
+  /* 16px mínimo evita zoom automático no iOS */
+  font-size: max(.93rem, 16px);
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
   outline: none;
   appearance: none;
@@ -193,7 +196,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 36px;
+  margin-bottom: 8px;
 }
 
 .radio-option {
@@ -206,6 +209,8 @@ p {
   background: #fafaf8;
   cursor: pointer;
   transition: border-color var(--transition), background var(--transition);
+  /* Área de toque generosa no mobile */
+  min-height: 48px;
 }
 
 .radio-option:hover {
@@ -251,16 +256,19 @@ p {
   background: #fffdf5;
 }
 
-.radio-option label {
+.radio-option label,
+.radio-option span {
   margin: 0;
   font-size: .9rem;
   font-weight: 400;
   cursor: pointer;
   letter-spacing: 0;
+  line-height: 1.4;
 }
 
 /* ── Submit Button ──────────────────────────────────── */
-button[type="submit"] {
+button[type="submit"],
+.btn-enviar {
   display: block;
   width: 100%;
   padding: 15px 28px;
@@ -277,9 +285,12 @@ button[type="submit"] {
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
   position: relative;
   overflow: hidden;
+  min-height: 52px;
+  margin-top: 32px;
 }
 
-button[type="submit"]::before {
+button[type="submit"]::before,
+.btn-enviar::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -291,37 +302,128 @@ button[type="submit"]::before {
 }
 
 button[type="submit"] span,
-button[type="submit"] {
+button[type="submit"],
+.btn-enviar span,
+.btn-enviar {
   position: relative;
   z-index: 1;
 }
 
-button[type="submit"]:hover::before {
+button[type="submit"]:hover::before,
+.btn-enviar:hover::before {
   transform: scaleX(1);
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+.btn-enviar:hover {
   box-shadow: 0 6px 20px rgba(200,169,110,.35);
 }
 
-button[type="submit"]:active {
+button[type="submit"]:active,
+.btn-enviar:active {
   transform: translateY(1px);
 }
 
-/* ── Responsive ─────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   RESPONSIVIDADE MOBILE
+══════════════════════════════════════════════════════ */
+
+/* Tablet */
 @media (max-width: 680px) {
+  body {
+    padding: 40px 16px 60px;
+  }
+
   form {
-    padding: 40px 28px 44px;
+    padding: 36px 24px 44px;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo-vendamais {
+    width: 120px;
+    margin-bottom: 24px;
   }
 }
 
-@media (max-width: 420px) {
+/* Mobile */
+@media (max-width: 480px) {
+  body {
+    padding: 24px 0 48px;
+    align-items: stretch;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+    padding: 0 16px;
+    text-align: center;
+  }
+
+  .logo-vendamais {
+    width: 110px;
+    margin: 0 auto 20px;
+  }
+
   form {
-    padding: 32px 18px 36px;
+    padding: 28px 16px 36px;
     border-radius: 0;
     box-shadow: none;
+    border-top: 4px solid var(--accent);
   }
-  body {
-    padding: 0;
+
+  h2 {
+    font-size: .68rem;
+    margin: 32px 0 20px;
+  }
+
+  .field-group,
+  .pergunta {
+    margin-bottom: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"] {
+    padding: 13px 14px;
+    font-size: 16px;
+  }
+
+  .radio-option {
+    padding: 13px 14px;
+    gap: 10px;
+  }
+
+  .radio-option span {
+    font-size: .88rem;
+  }
+
+  button[type="submit"],
+  .btn-enviar {
+    padding: 16px;
+    font-size: .85rem;
+    position: sticky;
+    bottom: 16px;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(26,26,46,.18);
+    margin-top: 24px;
+  }
+}
+
+/* iPhone SE e telas muito pequenas */
+@media (max-width: 360px) {
+  form {
+    padding: 24px 12px 32px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .radio-option span {
+    font-size: .84rem;
   }
 }
