@@ -86,12 +86,30 @@ def _inline(texto):
       *italic* → <i>italic</i>
     Remove asteriscos soltos que sobrarem.
     """
-    # bold antes de italic para não conflitar
     texto = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', texto)
     texto = re.sub(r'\*(.+?)\*',     r'<i>\1</i>', texto)
-    # asteriscos avulsos que restaram
     texto = texto.replace('**', '').replace('*', '')
     return texto
+
+
+def _limpar_diagnostico(texto):
+    """
+    Remove artefatos que a IA pode inserir:
+      - Linhas com 10+ caracteres = ou -
+      - Linhas que sejam apenas o título do relatório em maiúsculas
+    """
+    linhas = texto.splitlines()
+    linhas_limpas = []
+    for linha in linhas:
+        stripped = linha.strip()
+        # Remove separadores de igual ou traço
+        if re.match(r'^[=\-]{10,}$', stripped):
+            continue
+        # Remove linha de título duplicado que a IA insere
+        if re.match(r'^RELATÓRIO\s+EXECUTIVO[:\s]', stripped, re.IGNORECASE):
+            continue
+        linhas_limpas.append(linha)
+    return '\n'.join(linhas_limpas)
 
 
 def _md_para_flowables(texto_md, estilos):
@@ -107,6 +125,9 @@ def _md_para_flowables(texto_md, estilos):
       linha vazia   →  espaçamento entre parágrafos
       texto normal  →  parágrafo justificado
     """
+    # Limpa artefatos antes de processar
+    texto_md = _limpar_diagnostico(texto_md)
+
     fl = []
     linhas = texto_md.splitlines()
     i = 0
@@ -116,24 +137,24 @@ def _md_para_flowables(texto_md, estilos):
 
         # ── Linha em branco → espaço pequeno ──────────────────────────────
         if not linha.strip():
-            fl.append(Spacer(1, 4))
+            fl.append(Spacer(1, 6))
             i += 1
             continue
 
         # ── H2: ## Título ──────────────────────────────────────────────────
         if linha.startswith('## '):
             txt = _inline(linha[3:].strip())
-            fl.append(Spacer(1, 10))
+            fl.append(Spacer(1, 14))
             fl.append(Paragraph(txt, estilos['h2']))
             fl.append(HRFlowable(width='100%', thickness=0.6,
-                                 color=BORDER, spaceAfter=4))
+                                 color=BORDER, spaceAfter=6))
             i += 1
             continue
 
         # ── H3: ### Título ─────────────────────────────────────────────────
         if linha.startswith('### '):
             txt = _inline(linha[4:].strip())
-            fl.append(Spacer(1, 6))
+            fl.append(Spacer(1, 10))
             fl.append(Paragraph(txt, estilos['h3']))
             i += 1
             continue
@@ -150,17 +171,16 @@ def _md_para_flowables(texto_md, estilos):
         if m:
             num = m.group(1)
             txt = _inline(m.group(2))
+            fl.append(Spacer(1, 6))
             fl.append(Paragraph(f'<b>{num}.</b> &nbsp; {txt}', estilos['bullet']))
             i += 1
             continue
 
         # ── Parágrafo normal ───────────────────────────────────────────────
-        # Junta linhas consecutivas que fazem parte do mesmo parágrafo
         bloco = [linha]
         i += 1
         while i < len(linhas):
             prox = linhas[i].rstrip()
-            # para se linha vazia ou começo de outro elemento
             if (not prox.strip()
                     or prox.startswith('#')
                     or re.match(r'^[-*]\s+', prox)
@@ -186,12 +206,14 @@ def _estilos():
         'titulo': ParagraphStyle(
             'Titulo', parent=base['Normal'],
             fontName='Helvetica-Bold', fontSize=22,
-            textColor=NAVY, leading=28, spaceAfter=2,
+            textColor=colors.HexColor('#a8893e'),  # dourado
+            leading=28, spaceAfter=2,
         ),
         'subtitulo': ParagraphStyle(
             'Subtitulo', parent=base['Normal'],
             fontName='Helvetica', fontSize=10,
-            textColor=MUTED, spaceAfter=0,
+            textColor=colors.HexColor('#a8893e'),  # dourado
+            spaceAfter=0,
         ),
         # card cliente
         'label': ParagraphStyle(
@@ -209,23 +231,23 @@ def _estilos():
             'Corpo', parent=base['Normal'],
             fontName='Helvetica', fontSize=10,
             textColor=colors.HexColor('#2c2c3e'),
-            alignment=TA_JUSTIFY, spaceAfter=7, leading=15.5,
+            alignment=TA_JUSTIFY, spaceAfter=10, spaceBefore=4, leading=16,
         ),
         'h2': ParagraphStyle(
             'H2', parent=base['Normal'],
             fontName='Helvetica-Bold', fontSize=12,
-            textColor=NAVY, leading=16, spaceAfter=2,
+            textColor=NAVY, leading=16, spaceAfter=4, spaceBefore=14,
         ),
         'h3': ParagraphStyle(
             'H3', parent=base['Normal'],
             fontName='Helvetica-Bold', fontSize=10.5,
-            textColor=GOLD_DARK, leading=14, spaceAfter=3,
+            textColor=GOLD_DARK, leading=14, spaceAfter=5, spaceBefore=10,
         ),
         'bullet': ParagraphStyle(
             'Bullet', parent=base['Normal'],
             fontName='Helvetica', fontSize=9.5,
             textColor=colors.HexColor('#2c2c3e'),
-            leading=14, spaceAfter=4,
+            leading=14, spaceAfter=5, spaceBefore=2,
             leftIndent=12,
         ),
         # tabela Q&A
@@ -334,8 +356,7 @@ def carregar_perguntas():
 def gerar_pdf_diagnostico(cliente, diagnostico):
     criar_diretorio_se_nao_existe('diagnosticos')
     caminho = f"diagnosticos/Raio-X_Comercial_{cliente['empresa']}.pdf"
-    
-    # DEBUG: Verificar dados do cliente
+
     print(f"DEBUG - Cliente recebido: {cliente}")
 
     doc = SimpleDocTemplate(
@@ -354,14 +375,12 @@ def gerar_pdf_diagnostico(cliente, diagnostico):
 
     el.append(SectionHeader('Identificação do Cliente'))
     el.append(Spacer(1, 8))
-    # Sempre passar os 6 campos: nome, cargo, empresa, email, telefone, cidade
     el.append(_card_cliente(cliente, s, campos=['nome', 'cargo', 'empresa', 'email', 'telefone', 'cidade']))
     el.append(Spacer(1, 22))
 
     el.append(SectionHeader('Diagnóstico & Análise'))
     el.append(Spacer(1, 10))
 
-    # ← aqui o parser cuida de todo o markdown
     el += _md_para_flowables(diagnostico, s)
 
     el.append(Spacer(1, 28))
@@ -403,7 +422,6 @@ def gerar_pdf_respostas(cliente, respostas):
 
     el.append(SectionHeader('Identificação do Cliente'))
     el.append(Spacer(1, 8))
-    # Sempre passar os 6 campos: nome, cargo, empresa, email, telefone, cidade
     el.append(_card_cliente(cliente, s, campos=['nome', 'cargo', 'empresa', 'email', 'telefone', 'cidade']))
     el.append(Spacer(1, 22))
 
@@ -433,7 +451,6 @@ def gerar_pdf_respostas(cliente, respostas):
             texto = perg.get('pergunta', '')
             pilar = perg.get('pilar_nome', '')
 
-            # Procurar resposta usando diferentes formatos de chave
             resp = respostas.get(f'pergunta_{pid}') or respostas.get(str(pid)) or respostas.get(pid) or ''
             if isinstance(resp, list):
                 resp = ', '.join(resp)
