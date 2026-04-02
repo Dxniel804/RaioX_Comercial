@@ -24,6 +24,7 @@ class EmailService:
         self.email_user = os.getenv('EMAIL_USER')
         self.email_password = os.getenv('EMAIL_PASSWORD')
         self.director_email = os.getenv('DIRECTOR_EMAIL')
+        self.sender_email = os.getenv('SENDER_EMAIL', self.email_user)  # Usa SENDER_EMAIL ou fallback para EMAIL_USER
         
         # Tentar descriptografar senha se estiver criptografada
         if self.email_password and CRIPTOGRAFIA_DISPONIVEL:
@@ -42,6 +43,7 @@ class EmailService:
         print(f"   EMAIL_USER: {self.email_user}")
         print(f"   EMAIL_PASSWORD: {'*' * len(self.email_password) if self.email_password else 'None'}")
         print(f"   DIRECTOR_EMAIL: {self.director_email}")
+        print(f"   SENDER_EMAIL: {self.sender_email}")
       
         self.email_configurado = all([
             self.smtp_server, self.smtp_port, 
@@ -240,7 +242,7 @@ Sistema Raio X Comercial"""
             print(f"👤 Remetente: {self.email_user}")
             
             msg = MIMEMultipart()
-            msg['From'] = self.email_user
+            msg['From'] = self.sender_email
             msg['To'] = destinatario
             msg['Subject'] = assunto
             msg.attach(MIMEText(corpo, 'plain', 'utf-8'))

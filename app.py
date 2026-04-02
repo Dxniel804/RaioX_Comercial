@@ -98,7 +98,7 @@ def questoes():
     cliente = session.get('cliente')
 
     if 'cliente' not in session:
-        return redirect(url_for('forms'))
+        return redirect(url_for('index'))
     
     if request.method == 'GET':
         perguntas = carregar_questoes_diagnostico()
@@ -116,7 +116,7 @@ def analisar():
     """Exibe a página de carregamento da análise"""
     if 'cliente' not in session or 'respostas' not in session:
         print(f"❌ Sessão inválida - Cliente: {('cliente' in session)}, Respostas: {('respostas' in session)}")
-        return redirect('/forms')
+        return redirect(url_for('index'))
     
     print(f"✅ Sessão válida - Processando análise para: {session['cliente'].get('nome', 'Desconhecido')}")
     return render_template('analisar.html')
@@ -204,7 +204,7 @@ def api_processar_background():
 @app.route('/sucesso', methods=['GET'])
 def sucesso():
     if 'cliente' not in session:
-        return redirect('/forms')
+        return redirect(url_for('index'))
     
     cliente = session['cliente']
     
@@ -222,4 +222,4 @@ def sucesso():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=8080)
