@@ -1,0 +1,21 @@
+# API DO GEMINI
+GEMINI_API_KEY=sua_chave_gemini_aqui
+
+# CONFIGURAÇÃO RESEND (RECOMENDADO)
+RESEND_API_KEY=re_sua_chave_api_aqui
+RESEND_FROM_EMAIL=noreply@seu-dominio.com
+
+# CONFIGURAÇÃO SMTP ANTIGA (OPCIONAL)
+# SMTP_SERVER=vendamais.com.br
+# SMTP_PORT=587
+# EMAIL_USER=daniel.batista@vendamais.com.br
+# EMAIL_PASSWORD=240696Da*
+# ENCRYPTION_KEY=sua_chave_criptografia_aqui
+
+# EMAILS IMPORTANTES
+DIRECTOR_EMAIL=fabiano.silva@vendamais.com.br
+
+# CONFIGURAÇÕES FLASK
+SECRET_KEY=63f76032421b8be2f858c87344eb01bfcf05fd3953fca613aad8d169b53fd405
+FLASK_APP=app.py
+FLASK_ENV=development
