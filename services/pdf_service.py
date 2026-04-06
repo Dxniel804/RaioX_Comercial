@@ -166,13 +166,30 @@ def _md_para_flowables(texto_md, estilos):
             i += 1
             continue
 
-        # ── Lista numerada: 1. item ────────────────────────────────────────
-        m = re.match(r'^(\d+)\.\s+(.+)', linha)
+        # ── Lista numerada ou cabeçalho de seção: 1. Título ───────────────
+        m = re.match(r'^(\d{1,2})\.\s+(.+)', linha)
         if m:
             num = m.group(1)
-            txt = _inline(m.group(2))
-            fl.append(Spacer(1, 6))
-            fl.append(Paragraph(f'<b>{num}.</b> &nbsp; {txt}', estilos['bullet']))
+            titulo_candidato = m.group(2).strip()
+            palavras = titulo_candidato.split()
+            tem_seta = '→' in titulo_candidato or '->' in titulo_candidato
+            # Cabeçalho de seção: curto, sem seta, começa com maiúscula
+            is_cabecalho = (
+                len(palavras) <= 7
+                and not tem_seta
+                and palavras[0][0].isupper()
+                and not titulo_candidato.endswith('.')
+            )
+            if is_cabecalho:
+                txt = _inline(titulo_candidato)
+                fl.append(Spacer(1, 14))
+                fl.append(Paragraph(f'{num}. {txt}', estilos['h2']))
+                fl.append(HRFlowable(width='100%', thickness=0.6,
+                                     color=BORDER, spaceAfter=6))
+            else:
+                txt = _inline(titulo_candidato)
+                fl.append(Spacer(1, 6))
+                fl.append(Paragraph(f'<b>{num}.</b> &nbsp; {txt}', estilos['bullet']))
             i += 1
             continue
 
@@ -236,7 +253,7 @@ def _estilos():
         'h2': ParagraphStyle(
             'H2', parent=base['Normal'],
             fontName='Helvetica-Bold', fontSize=12,
-            textColor=NAVY, leading=16, spaceAfter=4, spaceBefore=14,
+            textColor=GOLD, leading=16, spaceAfter=4, spaceBefore=14,
         ),
         'h3': ParagraphStyle(
             'H3', parent=base['Normal'],

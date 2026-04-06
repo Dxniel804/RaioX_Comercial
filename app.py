@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, redirect
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 import json
 import services.ai_service as ai_service
@@ -9,7 +10,7 @@ import tempfile
 import uuid
 
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / '.env', override=True)
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'fallback_local')

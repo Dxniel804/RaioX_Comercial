@@ -2,8 +2,9 @@ from google import genai
 import os
 import json
 from dotenv import load_dotenv
+from pathlib import Path
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent.parent / '.env', override=True)
 
 def ler_prompt():
     try:
@@ -82,8 +83,8 @@ def gerar_diagnostico(respostas):
                 contents=conteudo_respostas,  # Só os dados aqui
                 config=genai.types.GenerateContentConfig(
                     system_instruction=system_prompt,  # Instruções como system
-                    max_output_tokens=8192,
-                    temperature=0.3,  # Um pouco mais alto para não truncar
+                    max_output_tokens=32768,
+                    temperature=0.3,
                     top_p=0.95,
                     top_k=40
                 )
@@ -97,7 +98,7 @@ def gerar_diagnostico(respostas):
                 contents=conteudo_respostas,
                 config=genai.types.GenerateContentConfig(
                     system_instruction=system_prompt,
-                    max_output_tokens=8192,
+                    max_output_tokens=32768,
                     temperature=0.3,
                     top_p=0.95,
                     top_k=40
