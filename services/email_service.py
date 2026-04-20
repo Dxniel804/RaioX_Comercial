@@ -279,13 +279,11 @@ Sistema Raio X Comercial"""
         try:
             nome_arquivo = os.path.basename(arquivo_path)
             with open(arquivo_path, 'rb') as anexo:
-                parte = MIMEBase('application', 'octet-stream')
+                parte = MIMEBase('application', 'pdf')
                 parte.set_payload(anexo.read())
                 encoders.encode_base64(parte)
-                parte.add_header(
-                    'Content-Disposition',
-                    f'attachment; filename="{nome_arquivo}"'
-                )
+                parte.add_header('Content-Disposition', 'attachment', filename=nome_arquivo)
+                parte.add_header('Content-Type', 'application/pdf', name=nome_arquivo)
                 msg.attach(parte)
             print(f"✅ Arquivo anexado: {nome_arquivo}")
         except Exception as e:

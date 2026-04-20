@@ -14,6 +14,7 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY, TA_RIGHT
 from reportlab.platypus.flowables import Flowable
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # ── Paleta (espelha o CSS do sistema) ────────────────────────────────────────
 NAVY       = colors.HexColor('#1a1a2e')
@@ -324,7 +325,7 @@ def _card_cliente(cliente, estilos, campos=None):
     }
     pares = [(labels[k], cliente.get(k, '—')) for k in campos if k in labels]
     pares.append(('Data de geração',
-                  datetime.now().strftime('%d/%m/%Y  às  %H:%M')))
+                  datetime.now(ZoneInfo('America/Sao_Paulo')).strftime('%d/%m/%Y  às  %H:%M')))
 
     rows = []
     for i in range(0, len(pares), 2):
