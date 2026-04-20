@@ -2,6 +2,7 @@
 import os
 import re
 import json
+import tempfile
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
@@ -371,8 +372,7 @@ def carregar_perguntas():
 # ════════════════════════════════════════════════════════════════════════════
 
 def gerar_pdf_diagnostico(cliente, diagnostico):
-    criar_diretorio_se_nao_existe('diagnosticos')
-    caminho = f"diagnosticos/Raio-X_Comercial_{cliente['empresa']}.pdf"
+    caminho = os.path.join(tempfile.gettempdir(), f"Raio-X_Comercial_{cliente['empresa']}.pdf")
 
     print(f"DEBUG - Cliente recebido: {cliente}")
 
@@ -418,8 +418,7 @@ def gerar_pdf_diagnostico(cliente, diagnostico):
 # ════════════════════════════════════════════════════════════════════════════
 
 def gerar_pdf_respostas(cliente, respostas):
-    criar_diretorio_se_nao_existe('respostas')
-    caminho = f"respostas/Respostas_Raio-X_{cliente['empresa']}.pdf"
+    caminho = os.path.join(tempfile.gettempdir(), f"Respostas_Raio-X_{cliente['empresa']}.pdf")
 
     perguntas = carregar_perguntas()
 

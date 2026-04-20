@@ -139,8 +139,7 @@ def api_analisar():
         
         # Salvar em arquivo temporário em vez de na sessão
         token = str(uuid.uuid4())
-        caminho = f"diagnosticos/temp_{token}.txt"
-        os.makedirs("diagnosticos", exist_ok=True)
+        caminho = os.path.join(tempfile.gettempdir(), f"temp_{token}.txt")
         with open(caminho, 'w', encoding='utf-8') as f:
             f.write(diagnostico)
         
@@ -166,8 +165,8 @@ def api_processar_background():
         
         # Ler diagnóstico do arquivo temporário
         token = session.get('diagnostico_token', '')
-        caminho = f"diagnosticos/temp_{token}.txt"
-        
+        caminho = os.path.join(tempfile.gettempdir(), f"temp_{token}.txt")
+
         with open(caminho, 'r', encoding='utf-8') as f:
             diagnostico = f.read()
         
@@ -211,8 +210,8 @@ def sucesso():
     
     # Ler diagnóstico do arquivo temporário
     token = session.get('diagnostico_token', '')
-    caminho = f"diagnosticos/temp_{token}.txt"
-    
+    caminho = os.path.join(tempfile.gettempdir(), f"temp_{token}.txt")
+
     try:
         with open(caminho, 'r', encoding='utf-8') as f:
             diagnostico = f.read()
